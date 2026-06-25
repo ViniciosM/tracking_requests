@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:tracking_requests/core/enums/request_status_enum.dart';
-
+import 'package:tracking_requests/core/enums/sync_status_enum.dart';
 import '../database.dart';
 import '../tables/requests_table.dart';
 
@@ -36,6 +36,21 @@ class RequestDao extends DatabaseAccessor<AppDatabase> with _$RequestDaoMixin {
 
   Future<void> upsertAll(List<RequestsCompanion> entries) =>
       batch((b) => b.insertAllOnConflictUpdate(requests, entries));
+
+  Future<void> markSynced(String localId, {String? remoteId}) {
+    return (update(requests)..where((t) => t.localId.equals(localId))).write(
+      RequestsCompanion(
+        syncStatus: const Value(SyncStatusEnum.synced),
+        remoteId: remoteId == null ? const Value.absent() : Value(remoteId),
+      ),
+    );
+  }
+
+  Future<void> markFailed(String localId) {
+    return (update(requests)..where((t) => t.localId.equals(localId))).write(
+      const RequestsCompanion(syncStatus: Value(SyncStatusEnum.failed)),
+    );
+  }
 
   Future<void> deleteByLocalId(String localId) =>
       (delete(requests)..where((t) => t.localId.equals(localId))).go();

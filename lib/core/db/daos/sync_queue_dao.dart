@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:tracking_requests/core/enums/sync_status_enum.dart';
+
 import '../database.dart';
 import '../tables/sync_queue_table.dart';
 
@@ -31,6 +32,21 @@ class SyncQueueDao extends DatabaseAccessor<AppDatabase>
       (update(syncQueue)..where((t) => t.id.equals(id))).write(
         const SyncQueueCompanion(status: Value(SyncStatusEnum.synced)),
       );
+
+  Future<void> incrementRetry(
+    int id, {
+    required int retryCount,
+    String? error,
+  }) {
+    return (update(syncQueue)..where((t) => t.id.equals(id))).write(
+      SyncQueueCompanion(
+        status: const Value(SyncStatusEnum.pending),
+        retryCount: Value(retryCount),
+        lastError: Value(error),
+        lastAttemptAt: Value(DateTime.now()),
+      ),
+    );
+  }
 
   Future<void> markFailed(int id, String error, int retryCount) =>
       (update(syncQueue)..where((t) => t.id.equals(id))).write(
