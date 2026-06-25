@@ -1,0 +1,258 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "maria@email.com",
+      "password": "password123",
+      "name": "Maria Souza"
+    },
+    {
+      "id": 2,
+      "email": "joao@email.com",
+      "password": "admin123",
+      "name": "João Lima"
+    }
+  ],
+  "requests": [
+    {
+      "id": "1",
+      "title": "Reagendar consulta de cardiologia",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "appointment",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-06-01T09:00:00Z",
+      "updatedAt": "2026-06-01T11:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Resultado de exame de sangue",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "exam",
+      "status": "in_progress",
+      "priority": "medium",
+      "createdAt": "2026-06-01T16:00:00Z",
+      "updatedAt": "2026-06-01T18:00:00Z"
+    },
+    {
+      "id": "3",
+      "title": "Renovação de receita de losartana",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "medication",
+      "status": "resolved",
+      "priority": "high",
+      "createdAt": "2026-06-01T23:00:00Z",
+      "updatedAt": "2026-06-02T01:00:00Z"
+    },
+    {
+      "id": "4",
+      "title": "Dúvida sobre cobrança da mensalidade",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "billing",
+      "status": "cancelled",
+      "priority": "low",
+      "createdAt": "2026-06-02T06:00:00Z",
+      "updatedAt": "2026-06-02T08:00:00Z"
+    },
+    {
+      "id": "5",
+      "title": "Atualização de cadastro",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "general",
+      "status": "open",
+      "priority": "medium",
+      "createdAt": "2026-06-02T13:00:00Z",
+      "updatedAt": "2026-06-02T15:00:00Z"
+    },
+    {
+      "id": "6",
+      "title": "Agendar ultrassom abdominal",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "exam",
+      "status": "in_progress",
+      "priority": "high",
+      "createdAt": "2026-06-02T20:00:00Z",
+      "updatedAt": "2026-06-02T22:00:00Z"
+    },
+    {
+      "id": "7",
+      "title": "Marcar retorno com clínico geral",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "appointment",
+      "status": "resolved",
+      "priority": "low",
+      "createdAt": "2026-06-03T03:00:00Z",
+      "updatedAt": "2026-06-03T05:00:00Z"
+    },
+    {
+      "id": "8",
+      "title": "Solicitar segunda via de boleto",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "billing",
+      "status": "cancelled",
+      "priority": "medium",
+      "createdAt": "2026-06-03T10:00:00Z",
+      "updatedAt": "2026-06-03T12:00:00Z"
+    },
+    {
+      "id": "9",
+      "title": "Liberação de medicamento de uso contínuo",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "medication",
+      "status": "open",
+      "priority": "high",
+      "createdAt": "2026-06-03T17:00:00Z",
+      "updatedAt": "2026-06-03T19:00:00Z"
+    },
+    {
+      "id": "10",
+      "title": "Pedido de relatório médico",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "general",
+      "status": "in_progress",
+      "priority": "low",
+      "createdAt": "2026-06-04T00:00:00Z",
+      "updatedAt": "2026-06-04T02:00:00Z"
+    },
+    {
+      "id": "11",
+      "title": "Agendar consulta com dermatologista",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "appointment",
+      "status": "resolved",
+      "priority": "medium",
+      "createdAt": "2026-06-04T07:00:00Z",
+      "updatedAt": "2026-06-04T09:00:00Z"
+    },
+    {
+      "id": "12",
+      "title": "Resultado de ressonância",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "exam",
+      "status": "cancelled",
+      "priority": "high",
+      "createdAt": "2026-06-04T14:00:00Z",
+      "updatedAt": "2026-06-04T16:00:00Z"
+    },
+    {
+      "id": "13",
+      "title": "Reagendar consulta de cardiologia #13",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "appointment",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-06-04T21:00:00Z",
+      "updatedAt": "2026-06-04T23:00:00Z"
+    },
+    {
+      "id": "14",
+      "title": "Resultado de exame de sangue #14",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "exam",
+      "status": "in_progress",
+      "priority": "medium",
+      "createdAt": "2026-06-05T04:00:00Z",
+      "updatedAt": "2026-06-05T06:00:00Z"
+    },
+    {
+      "id": "15",
+      "title": "Renovação de receita de losartana #15",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "medication",
+      "status": "resolved",
+      "priority": "high",
+      "createdAt": "2026-06-05T11:00:00Z",
+      "updatedAt": "2026-06-05T13:00:00Z"
+    },
+    {
+      "id": "16",
+      "title": "Dúvida sobre cobrança da mensalidade #16",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "billing",
+      "status": "cancelled",
+      "priority": "low",
+      "createdAt": "2026-06-05T18:00:00Z",
+      "updatedAt": "2026-06-05T20:00:00Z"
+    },
+    {
+      "id": "17",
+      "title": "Atualização de cadastro #17",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "general",
+      "status": "open",
+      "priority": "medium",
+      "createdAt": "2026-06-06T01:00:00Z",
+      "updatedAt": "2026-06-06T03:00:00Z"
+    },
+    {
+      "id": "18",
+      "title": "Agendar ultrassom abdominal #18",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "exam",
+      "status": "in_progress",
+      "priority": "high",
+      "createdAt": "2026-06-06T08:00:00Z",
+      "updatedAt": "2026-06-06T10:00:00Z"
+    },
+    {
+      "id": "19",
+      "title": "Marcar retorno com clínico geral #19",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "appointment",
+      "status": "resolved",
+      "priority": "low",
+      "createdAt": "2026-06-06T15:00:00Z",
+      "updatedAt": "2026-06-06T17:00:00Z"
+    },
+    {
+      "id": "20",
+      "title": "Solicitar segunda via de boleto #20",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "billing",
+      "status": "cancelled",
+      "priority": "medium",
+      "createdAt": "2026-06-06T22:00:00Z",
+      "updatedAt": "2026-06-07T00:00:00Z"
+    },
+    {
+      "id": "21",
+      "title": "Liberação de medicamento de uso contínuo #21",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "medication",
+      "status": "open",
+      "priority": "high",
+      "createdAt": "2026-06-07T05:00:00Z",
+      "updatedAt": "2026-06-07T07:00:00Z"
+    },
+    {
+      "id": "22",
+      "title": "Pedido de relatório médico #22",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "general",
+      "status": "in_progress",
+      "priority": "low",
+      "createdAt": "2026-06-07T12:00:00Z",
+      "updatedAt": "2026-06-07T14:00:00Z"
+    },
+    {
+      "id": "23",
+      "title": "Agendar consulta com dermatologista #23",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "appointment",
+      "status": "resolved",
+      "priority": "medium",
+      "createdAt": "2026-06-07T19:00:00Z",
+      "updatedAt": "2026-06-07T21:00:00Z"
+    },
+    {
+      "id": "24",
+      "title": "Resultado de ressonância #24",
+      "description": "Solicitação registrada pelo paciente para acompanhamento e resolução pela equipe.",
+      "category": "exam",
+      "status": "cancelled",
+      "priority": "high",
+      "createdAt": "2026-06-08T02:00:00Z",
+      "updatedAt": "2026-06-08T04:00:00Z"
+    }
+  ]
+}

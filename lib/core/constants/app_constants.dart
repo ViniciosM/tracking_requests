@@ -7,8 +7,7 @@ class AppConstants {
 
 class ApiConstants {
   ApiConstants._();
-  // (todo) Definir base url e porta
-  static const String baseUrl = '';
+  static const String baseUrl = 'http://10.0.2.2:3000';
   static const String login = '/login';
   static const String requests = '/requests';
 }
