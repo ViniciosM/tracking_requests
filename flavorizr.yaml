@@ -1,0 +1,19 @@
+flavorizr:
+  app:
+    android:
+      flavorDimensions: "brand"
+  flavors:
+    brandA:
+      app:
+        name: "Vitia Saúde"
+      android:
+        applicationId: "com.example.tracking_requests.brand_a"
+      ios:
+        bundleId: "com.example.trackingRequests.brandA"
+    brandB:
+      app:
+        name: "Onda Saúde"
+      android:
+        applicationId: "com.example.tracking_requests.brand_b"
+      ios:
+        bundleId: "com.example.trackingRequests.brandB"

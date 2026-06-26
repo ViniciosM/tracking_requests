@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tracking_requests/core/design_system/brand_config.dart';
 import 'package:tracking_requests/features/auth/data/sync/request_sync_processor.dart';
 import 'package:tracking_requests/features/auth/domain/usecases/check_auth_status_usecase.dart';
 import 'package:tracking_requests/features/auth/domain/usecases/login_usecase.dart';
@@ -11,6 +12,9 @@ import 'package:tracking_requests/features/requests/domain/usecases/refresh_requ
 import 'package:tracking_requests/features/requests/domain/usecases/suggest_category_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/update_request_status_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/watch_requests_usecase.dart';
+import 'package:tracking_requests/features/requests/presentation/bloc/create/create_request_bloc.dart';
+import 'package:tracking_requests/features/requests/presentation/bloc/detail/request_detail_bloc.dart';
+import 'package:tracking_requests/features/requests/presentation/bloc/list/request_list_bloc.dart';
 import 'package:uuid/uuid.dart';
 import '../db/daos/request_dao.dart';
 import '../db/daos/sync_queue_dao.dart';
@@ -36,9 +40,9 @@ final GetIt getIt = GetIt.instance;
 const String apiDio = 'apiDio';
 const String geminiDio = 'geminiDio';
 
-Future<void> setupDependencies() async {
+Future<void> setupDependencies({required BrandConfig brand}) async {
   final geminiKey = await _loadGeminiKey();
-  registerDependencies(geminiKey: geminiKey);
+  registerDependencies(geminiKey: geminiKey, brand: brand);
   getIt<SyncService>().start();
 }
 
@@ -51,14 +55,18 @@ Future<String> _loadGeminiKey() async {
   }
 }
 
-void registerDependencies({required String geminiKey}) {
-  _registerCore(geminiKey);
+void registerDependencies({
+  required String geminiKey,
+  required BrandConfig brand,
+}) {
+  _registerCore(geminiKey, brand);
   _registerAuth();
   _registerRequests();
 }
 
-void _registerCore(String geminiKey) {
+void _registerCore(String geminiKey, BrandConfig brand) {
   getIt
+    ..registerSingleton<BrandConfig>(brand)
     ..registerLazySingleton<Uuid>(() => const Uuid())
     ..registerLazySingleton<ConnectivityService>(
       () => InternetConnectivityService(),
@@ -72,7 +80,10 @@ void _registerCore(String geminiKey) {
       () => getIt<AppDatabase>().syncQueueDao,
     )
     ..registerLazySingleton<Dio>(
-      () => DioClient.create(storage: getIt()),
+      () => DioClient.create(
+        storage: getIt(),
+        baseUrl: getIt<BrandConfig>().apiBaseUrl,
+      ),
       instanceName: apiDio,
     )
     ..registerLazySingleton<Dio>(
@@ -143,5 +154,23 @@ void _registerRequests() {
         queueDao: getIt(),
         processor: getIt(),
       ),
+    )
+    // blocs
+    ..registerFactory(
+      () => RequestsListBloc(
+        watchRequests: getIt(),
+        refreshRequests: getIt(),
+        syncService: getIt(),
+        connectivity: getIt(),
+      ),
+    )
+    ..registerFactory(
+      () => RequestDetailBloc(
+        getRequestDetail: getIt(),
+        updateRequestStatus: getIt(),
+      ),
+    )
+    ..registerFactory(
+      () => CreateRequestBloc(createRequest: getIt(), suggestCategory: getIt()),
     );
 }
