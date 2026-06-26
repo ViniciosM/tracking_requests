@@ -6,6 +6,7 @@ import 'package:tracking_requests/features/auth/data/sync/request_sync_processor
 import 'package:tracking_requests/features/auth/domain/usecases/check_auth_status_usecase.dart';
 import 'package:tracking_requests/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tracking_requests/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:tracking_requests/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/create_request_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/get_request_detail_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/refresh_requests_usecase.dart';
@@ -108,7 +109,10 @@ void _registerAuth() {
     // use cases
     ..registerLazySingleton(() => LoginUseCase(getIt()))
     ..registerLazySingleton(() => LogoutUseCase(getIt()))
-    ..registerLazySingleton(() => CheckAuthStatusUseCase(getIt()));
+    ..registerLazySingleton(() => CheckAuthStatusUseCase(getIt()))
+    ..registerFactory(
+      () => AuthBloc(login: getIt(), logout: getIt(), checkAuthStatus: getIt()),
+    );
 }
 
 void _registerRequests() {

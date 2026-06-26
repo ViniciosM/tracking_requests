@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tracking_requests/app/app.dart';
 
 import 'core/design_system/app_colors.dart';
 import 'core/design_system/app_spacing.dart';
-import 'core/design_system/app_theme.dart';
 import 'core/design_system/app_typography.dart';
 import 'core/design_system/brand_config.dart';
 import 'core/di/injection.dart';
@@ -13,20 +13,20 @@ Future<void> bootstrap(BrandConfig brand) async {
   runApp(TrackingRequestsApp(brand: brand));
 }
 
-class TrackingRequestsApp extends StatelessWidget {
-  final BrandConfig brand;
-  const TrackingRequestsApp({super.key, required this.brand});
+// class TrackingRequestsApp extends StatelessWidget {
+//   final BrandConfig brand;
+//   const TrackingRequestsApp({super.key, required this.brand});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: brand.appName,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.fromBrand(brand),
-      // todo: substituir auth e routing
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: brand.appName,
+//       debugShowCheckedModeBanner: false,
+//       theme: AppTheme.fromBrand(brand),
+//       // todo: substituir auth e routing
+//     );
+//   }
+// }
 
 class ThemePreview extends StatelessWidget {
   final BrandConfig brand;

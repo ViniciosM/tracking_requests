@@ -45,7 +45,7 @@ class RequestCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: primary.withAlpha(10),
+                  color: primary.withAlpha(25),
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child: Icon(request.category.icon, size: 20, color: primary),

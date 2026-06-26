@@ -12,7 +12,7 @@ class OfflineBanner extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
       decoration: BoxDecoration(
-        color: AppColors.warning.withAlpha(18),
+        color: AppColors.warning.withAlpha(46),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(

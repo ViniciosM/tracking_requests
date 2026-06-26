@@ -12,7 +12,7 @@ class AiSuggestButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
     return Material(
-      color: primary.withAlpha(10),
+      color: primary.withAlpha(25),
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),

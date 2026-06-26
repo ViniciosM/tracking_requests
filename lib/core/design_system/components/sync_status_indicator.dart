@@ -32,7 +32,7 @@ class SyncStatusIndicator extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: primary.withBlue(10),
+        color: primary.withAlpha(25),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(

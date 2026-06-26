@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracking_requests/core/design_system/color_utils.dart';
-
+import 'package:tracking_requests/core/design_system/utils/color_utils.dart';
 import '../app_colors.dart';
 import '../app_radius.dart';
 import '../app_typography.dart';

@@ -86,7 +86,7 @@ class _AppTextFieldState extends State<AppTextField> {
             boxShadow: _focused && !hasError
                 ? [
                     BoxShadow(
-                      color: primary.withAlpha(15),
+                      color: primary.withAlpha(38),
                       blurRadius: 0,
                       spreadRadius: 3,
                     ),
