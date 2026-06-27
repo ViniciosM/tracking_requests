@@ -1,0 +1,224 @@
+### PROMPT TO GENERAGE design-brief ###
+
+Design a complete, production-ready mobile UI kit for a Healthcare Service Request Tracking application. The app allows users to create, track, and manage healthcare service requests such as appointments, exams, medication, billing, and general support.
+The application is offline-first, meaning every action is applied instantly and synchronized later. The interface must clearly communicate synchronization states (Pending Sync, Synced, Failed) without creating unnecessary user anxiety.
+Design for 390 × 844 px (iPhone 15), compatible with both iOS and Android (Flutter). The visual style should be modern, minimal, trustworthy, healthcare-oriented, with generous whitespace, rounded corners, soft shadows, and accessibility (WCAG AA). All UI copy must be in Brazilian Portuguese (pt-BR), while component and layer names should be in English.
+
+Deliverables
+
+Create:
+Complete Design System
+Reusable Component Library
+All application screens
+State variants for every screen
+Whitelabel demonstration using two brands
+Design System
+
+Define reusable design tokens for:
+
+Semantic colors
+Typography (Montserrat)
+Spacing
+Border radius
+Elevation
+Iconography
+Status colors
+Sync states
+Priority indicators
+
+Brand A
+
+Primary: Purple (#8D47D6)
+Secondary: Emerald (#10B981)
+
+Brand B (Whitelabel preview)
+
+Use the exact same layouts while changing only theme tokens (for example Teal + Coral) to demonstrate token-driven branding.
+
+Component Library
+
+Create reusable components with all relevant states:
+
+Buttons (primary, secondary, ghost, destructive, loading)
+Text Fields
+Password Field
+Search Field
+Multiline Description
+Dropdown / Select
+Filter Chips
+Status Chips
+Category Chips
+Sync Badges
+Priority Indicators
+Request Card
+App Bar
+Offline Banner
+Sync Indicator
+Floating Action Button
+Bottom Sheet
+Snackbar
+Empty State
+Error State
+Loading Skeletons
+Pull-to-refresh
+Pagination Loader
+AI Suggestion control attached to the Description field
+
+Each component should include default, focused, pressed, disabled, error, and loading states where applicable.
+
+Screens
+Splash
+
+Loading screen while validating stored session.
+
+Login
+
+States:
+Idle
+Submitting
+Invalid credentials
+Offline
+Requests List (Home)
+
+Contains:
+App Bar
+Offline Banner
+Filter Chips
+Request Cards
+FAB
+Pull to Refresh
+Infinite Pagination
+
+States:
+Loading
+Loaded
+Empty
+Error
+Offline
+Syncing
+Loading More
+Filtered
+Request Detail
+
+Display:
+Title
+Status
+Description
+Category
+Priority
+Dates
+Requester
+Sync Badge
+Change Status action (Bottom Sheet)
+
+States:
+
+Loaded
+Changing Status
+Updating
+Update Failed
+Offline
+Create Request
+
+Form fields:
+
+Title
+Description
+Category
+Priority
+
+Include an AI feature ("Sugerir com IA") capable of generating category and summary from the description.
+
+States:
+Empty
+Validation Errors
+AI Suggesting
+AI Applied
+AI Error
+Submitting
+Success
+Offline
+Main User Flows
+Splash → Login → Home
+Browse requests with filtering, pagination, and pull-to-refresh
+Create request with AI suggestions and optimistic updates
+Change request status with optimistic synchronization
+Offline mode with queued changes automatically synchronized when online
+Global Requirements
+
+Every data screen must visually support:
+Loading
+Loaded
+Empty
+Error
+Offline
+Pending Sync
+Syncing
+Failed Sync
+
+Offline behavior should feel like a normal application state rather than an error.
+
+--------------------------------------------------------------------------------------------------------
+
+## PROMPT PARA PLANO DE AÇÃO ##
+PT-BR
+Analise os PDFs anexados para pegar o CONTEXTO
+Teste Técnico - Mobile Sênior e depois RESUMO + DECISÔES
+
+Após analisar, ajude-me a planejar a resolução desse teste técnico e verificar possíveis gaps técnicos.
+
+DECISÕES
+- API mock com json-server
+- Paginação page-based com banco local
+- Pull to refresh
+- LLM Gemini Free Tier
+- White label com classe Abstrata para montar o Theme
+- O design system (cores, fontes e componentes), bem como as telas do app, será gerado pelo Claude Design, depois exportado para o Figma.
+- Pacotes que serão utilizados: equatable, dartz, dio, getit, mocktail, drift, flutter_bloc, internet_connection_checker_plus
+- Realizarei testes unitário, possivelmente alguns de widget e algum de integração
+- Arquitetura será Clean Architecture baseado em features. Por exemplo:
+## 📂 Project Structure Example
+```
+lib/
+├── core/
+└── features/
+    └── perfect_number/
+        ├── data/
+        │   ├── datasources/       # SearchLocalDatasource
+        │   ├── models/            # SearchRecordModel (toMap/fromMap)
+        │   └── repositories/      # PerfectNumberRepositoryImpl
+        └── domain/
+            ├── entities/          # SearchRecord, PerfectNumberResult
+            ├── repositories/      # PerfectNumberRepository (abstract)
+            └── usecases/          # Check, Find, Save, GetHistory
+        └── presentation/
+            ├── controller/             # BloC
+            ├── screens/           # Home, Check, Range, History
+            └── widgets/           # Reusable UI components
+```
+Modo offline: Será utilizado o Drift para isso. Possível fluxo completo:
+Usuário cria agendamento
+↓
+Salva no Drift
+↓
+Cria item na sync_queue
+↓
+UI atualiza imediatamente
+↓
+Internet volta
+↓
+ConnectivityPlus detecta
+↓
+Health Check confirma internet
+↓
+SyncService inicia
+↓
+Processa fila
+↓
+API confirma
+↓
+sync_queue = synced
+↓
+Banco local atualizado
+↓
+UI atualizada automaticamente via Drift Stream
