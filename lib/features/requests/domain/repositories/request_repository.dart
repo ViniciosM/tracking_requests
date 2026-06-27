@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:tracking_requests/core/enums/request_category_enum.dart';
 import 'package:tracking_requests/core/enums/request_priority_enum.dart';
 import 'package:tracking_requests/core/enums/request_status_enum.dart';
-import 'package:tracking_requests/features/requests/domain/entities/category_suggestion_entity.dart';
+import 'package:tracking_requests/features/requests/domain/entities/description_suggestion_entity.dart';
 import 'package:tracking_requests/features/requests/domain/entities/request_entity.dart';
 import '../../../../core/error/failures.dart';
 
@@ -31,7 +31,7 @@ abstract class RequestRepository {
     required RequestStatusEnum status,
   });
 
-  Future<Either<Failure, CategorySuggestionEntity>> suggestCategory(
-    String description,
+  Future<Either<Failure, DescriptionSuggestionEntity>> suggestDescription(
+    String title,
   );
 }

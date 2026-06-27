@@ -3,7 +3,7 @@ import 'package:tracking_requests/core/enums/request_category_enum.dart';
 import 'package:tracking_requests/core/enums/request_priority_enum.dart';
 import 'package:tracking_requests/core/enums/request_status_enum.dart';
 import 'package:tracking_requests/core/enums/sync_status_enum.dart';
-import 'package:tracking_requests/features/requests/domain/entities/category_suggestion_entity.dart';
+import 'package:tracking_requests/features/requests/domain/entities/description_suggestion_entity.dart';
 import 'package:tracking_requests/features/requests/domain/entities/request_entity.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../core/constants/app_constants.dart';
@@ -131,8 +131,8 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Either<Failure, CategorySuggestionEntity>> suggestCategory(
-    String description,
+  Future<Either<Failure, DescriptionSuggestionEntity>> suggestDescription(
+    String title,
   ) async {
     if (!await connectivity.isOnline) {
       return const Left(
@@ -140,7 +140,7 @@ class RequestRepositoryImpl implements RequestRepository {
       );
     }
     try {
-      final suggestion = await ai.suggestCategory(description);
+      final suggestion = await ai.suggestDescription(title);
       return Right(suggestion);
     } on NetworkException {
       return const Left(

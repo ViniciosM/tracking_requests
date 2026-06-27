@@ -1,16 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/create_request_usecase.dart';
-import 'package:tracking_requests/features/requests/domain/usecases/suggest_category_usecase.dart';
+import 'package:tracking_requests/features/requests/domain/usecases/suggest_description_usecase.dart';
 import 'package:tracking_requests/features/requests/presentation/bloc/create/create_request_event.dart';
 import 'package:tracking_requests/features/requests/presentation/bloc/create/create_request_state.dart';
 
 class CreateRequestBloc extends Bloc<CreateRequestEvent, CreateRequestState> {
   final CreateRequestUseCase createRequest;
-  final SuggestCategoryUseCase suggestCategory;
+  final SuggestDescriptionUseCase suggestDescription;
 
   CreateRequestBloc({
     required this.createRequest,
-    required this.suggestCategory,
+    required this.suggestDescription,
   }) : super(const CreateRequestState()) {
     on<CreateSuggestionRequested>(_onSuggestion);
     on<CreateSubmitted>(_onSubmit);
@@ -21,8 +21,8 @@ class CreateRequestBloc extends Bloc<CreateRequestEvent, CreateRequestState> {
     Emitter<CreateRequestState> emit,
   ) async {
     emit(state.copyWith(suggestionStatus: SuggestionStatus.loading));
-    final result = await suggestCategory(
-      SuggestCategoryParams(event.description),
+    final result = await suggestDescription(
+      SuggestDescriptionParams(event.title),
     );
     result.fold(
       (failure) => emit(
@@ -34,8 +34,7 @@ class CreateRequestBloc extends Bloc<CreateRequestEvent, CreateRequestState> {
       (suggestion) => emit(
         state.copyWith(
           suggestionStatus: SuggestionStatus.ready,
-          suggestedCategory: suggestion.category,
-          suggestedSummary: suggestion.summary,
+          suggestedDescription: suggestion.description,
           clearError: true,
         ),
       ),

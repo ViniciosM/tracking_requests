@@ -12,7 +12,7 @@ import 'package:tracking_requests/features/requests/data/datasources/ai_remote_d
 import 'package:tracking_requests/features/requests/data/datasources/request_local_datasource.dart';
 import 'package:tracking_requests/features/requests/data/datasources/request_remote_datasource.dart';
 import 'package:tracking_requests/features/requests/data/datasources/sync_queue_local_datasource.dart';
-import 'package:tracking_requests/features/requests/data/models/category_suggestion_model.dart';
+import 'package:tracking_requests/features/requests/data/models/description_suggestion_model.dart';
 import 'package:tracking_requests/features/requests/data/repositories/request_repository_impl.dart';
 import 'package:tracking_requests/features/requests/domain/entities/request_entity.dart';
 import 'package:uuid/uuid.dart';
@@ -242,32 +242,35 @@ void main() {
     });
   });
 
-  group('suggestCategory', () {
+  group('suggestDescription', () {
     test('returns NetworkFailure and skips the LLM when offline', () async {
       // Act
       when(() => connectivity.isOnline).thenAnswer((_) async => false);
 
-      final result = await repository.suggestCategory('Descrição longa.');
+      final result = await repository.suggestDescription('Reagendar consulta');
 
       // Assert
       expect(result.isLeft(), isTrue);
-      verifyNever(() => ai.suggestCategory(any()));
+      verifyNever(() => ai.suggestDescription(any()));
     });
 
     test('delegates to the AI data source when online', () async {
+      // Arrange
+      const suggestion = DescriptionSuggestionModel(
+        description: 'Gostaria de reagendar minha consulta.',
+      );
+
       // Act
       when(() => connectivity.isOnline).thenAnswer((_) async => true);
-      const suggestion = CategorySuggestionModel(
-        category: RequestCategoryEnum.exam,
-        summary: 'Pedido de exame.',
-      );
-      when(() => ai.suggestCategory(any())).thenAnswer((_) async => suggestion);
+      when(
+        () => ai.suggestDescription(any()),
+      ).thenAnswer((_) async => suggestion);
 
-      final result = await repository.suggestCategory('Descrição longa.');
+      final result = await repository.suggestDescription('Reagendar consulta');
 
       // Assert
       expect(result.isRight(), isTrue);
-      verify(() => ai.suggestCategory('Descrição longa.')).called(1);
+      verify(() => ai.suggestDescription('Reagendar consulta')).called(1);
     });
   });
 }

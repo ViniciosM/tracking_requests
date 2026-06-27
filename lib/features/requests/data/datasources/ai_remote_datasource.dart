@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:tracking_requests/core/enums/request_category_enum.dart';
+
 import '../../../../core/error/exceptions.dart';
-import '../models/category_suggestion_model.dart';
+import '../models/description_suggestion_model.dart';
 
 abstract class AiRemoteDataSource {
-  Future<CategorySuggestionModel> suggestCategory(String description);
+  Future<DescriptionSuggestionModel> suggestDescription(String title);
 }
 
 class GeminiAiRemoteDataSource implements AiRemoteDataSource {
@@ -12,11 +12,11 @@ class GeminiAiRemoteDataSource implements AiRemoteDataSource {
   final String model;
   GeminiAiRemoteDataSource({
     required this.dio,
-    this.model = 'gemini-flash-latest',
+    this.model = 'gemini-2.5-flash',
   });
 
   @override
-  Future<CategorySuggestionModel> suggestCategory(String description) async {
+  Future<DescriptionSuggestionModel> suggestDescription(String title) async {
     try {
       final response = await dio.post(
         '/v1beta/models/$model:generateContent',
@@ -24,17 +24,17 @@ class GeminiAiRemoteDataSource implements AiRemoteDataSource {
           'contents': [
             {
               'parts': [
-                {'text': _buildPrompt(description)},
+                {'text': _buildPrompt(title)},
               ],
             },
           ],
           'generationConfig': {
             'responseMimeType': 'application/json',
-            'temperature': 0.2,
+            'temperature': 0.4,
           },
         },
       );
-      return CategorySuggestionModel.fromAiJson(_extractText(response.data));
+      return DescriptionSuggestionModel.fromAiJson(_extractText(response.data));
     } on DioException catch (e) {
       final isConnectionIssue =
           e.type == DioExceptionType.connectionError ||
@@ -42,6 +42,13 @@ class GeminiAiRemoteDataSource implements AiRemoteDataSource {
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout;
       if (isConnectionIssue) throw const NetworkException();
+
+      if (e.response?.statusCode == 429) {
+        throw const ServerException(
+          message:
+              'Limite de sugestões atingido. Aguarde alguns segundos e tente novamente.',
+        );
+      }
       throw ServerException(
         message: 'Falha ao consultar a IA.',
         statusCode: e.response?.statusCode,
@@ -51,15 +58,13 @@ class GeminiAiRemoteDataSource implements AiRemoteDataSource {
     }
   }
 
-  String _buildPrompt(String description) {
-    final categories = RequestCategoryEnum.values
-        .map((c) => c.apiValue)
-        .join(', ');
-    return 'You are a triage assistant for a healthcare service-request app. '
-        'Read the request description and respond ONLY with a JSON object of the '
-        'form {"category": <one of: $categories>, "summary": <a concise '
-        'one-sentence summary in Brazilian Portuguese>}. '
-        'Description: "$description"';
+  String _buildPrompt(String title) {
+    return 'You are an assistant for a healthcare service-request app. '
+        'Given a short request TITLE, write a clear and polite request '
+        'DESCRIPTION in Brazilian Portuguese, in the first person, with 2 to 3 '
+        'sentences, expanding the title into a complete description the user can '
+        'review and edit. Respond ONLY with a JSON object of the form '
+        '{"description": <text>}. Title: "$title"';
   }
 
   String _extractText(dynamic data) {

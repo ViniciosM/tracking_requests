@@ -1,7 +1,7 @@
 class AppConstants {
   AppConstants._();
 
-  static const int pageSize = 20;
+  static const int pageSize = 5;
   static const int minDescriptionLength = 10;
 }
 

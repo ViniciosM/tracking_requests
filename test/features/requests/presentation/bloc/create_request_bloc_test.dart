@@ -5,9 +5,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tracking_requests/core/enums/request_category_enum.dart';
 import 'package:tracking_requests/core/enums/request_priority_enum.dart';
 import 'package:tracking_requests/core/error/failures.dart';
-import 'package:tracking_requests/features/requests/domain/entities/category_suggestion_entity.dart';
+import 'package:tracking_requests/features/requests/domain/entities/description_suggestion_entity.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/create_request_usecase.dart';
-import 'package:tracking_requests/features/requests/domain/usecases/suggest_category_usecase.dart';
+import 'package:tracking_requests/features/requests/domain/usecases/suggest_description_usecase.dart';
 import 'package:tracking_requests/features/requests/presentation/bloc/create/create_request_bloc.dart';
 import 'package:tracking_requests/features/requests/presentation/bloc/create/create_request_event.dart';
 import 'package:tracking_requests/features/requests/presentation/bloc/create/create_request_state.dart';
@@ -16,14 +16,15 @@ import '_bloc.fixtures.dart';
 
 class MockCreateRequest extends Mock implements CreateRequestUseCase {}
 
-class MockSuggestCategory extends Mock implements SuggestCategoryUseCase {}
+class MockSuggestDescription extends Mock
+    implements SuggestDescriptionUseCase {}
 
 void main() {
   late MockCreateRequest createRequest;
-  late MockSuggestCategory suggestCategory;
+  late MockSuggestDescription suggestDescription;
 
   setUpAll(() {
-    registerFallbackValue(const SuggestCategoryParams('x'));
+    registerFallbackValue(const SuggestDescriptionParams('x'));
     registerFallbackValue(
       const CreateRequestParams(
         title: 'x',
@@ -36,27 +37,23 @@ void main() {
 
   setUp(() {
     createRequest = MockCreateRequest();
-    suggestCategory = MockSuggestCategory();
+    suggestDescription = MockSuggestDescription();
   });
 
   CreateRequestBloc build() => CreateRequestBloc(
     createRequest: createRequest,
-    suggestCategory: suggestCategory,
+    suggestDescription: suggestDescription,
   );
 
   blocTest<CreateRequestBloc, CreateRequestState>(
-    'AI suggestion emits [loading, ready] with category and summary',
-    setUp: () => when(() => suggestCategory(any())).thenAnswer(
+    'AI suggestion emits [loading, ready] with the drafted description',
+    setUp: () => when(() => suggestDescription(any())).thenAnswer(
       (_) async => const Right(
-        CategorySuggestionEntity(
-          category: RequestCategoryEnum.exam,
-          summary: 'Exame.',
-        ),
+        DescriptionSuggestionEntity(description: 'Descrição gerada pela IA.'),
       ),
     ),
     build: build,
-    act: (b) =>
-        b.add(const CreateSuggestionRequested('descrição longa o suficiente')),
+    act: (b) => b.add(const CreateSuggestionRequested('Reagendar consulta')),
     expect: () => [
       isA<CreateRequestState>().having(
         (s) => s.suggestionStatus,
@@ -70,11 +67,10 @@ void main() {
             SuggestionStatus.ready,
           )
           .having(
-            (s) => s.suggestedCategory,
-            'category',
-            RequestCategoryEnum.exam,
-          )
-          .having((s) => s.suggestedSummary, 'summary', 'Exame.'),
+            (s) => s.suggestedDescription,
+            'description',
+            'Descrição gerada pela IA.',
+          ),
     ],
   );
 

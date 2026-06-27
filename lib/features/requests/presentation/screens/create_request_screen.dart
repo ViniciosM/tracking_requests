@@ -48,14 +48,12 @@ class _CreateRequestViewState extends State<_CreateRequestView> {
   }
 
   void _suggest(BuildContext context) {
-    final description = _description.text.trim();
-    if (description.isEmpty) {
-      AppSnackbar.info(context, 'Escreva uma descrição para sugerir.');
+    final title = _title.text.trim();
+    if (title.isEmpty) {
+      AppSnackbar.info(context, 'Escreva um título para gerar a descrição.');
       return;
     }
-    context.read<CreateRequestBloc>().add(
-      CreateSuggestionRequested(description),
-    );
+    context.read<CreateRequestBloc>().add(CreateSuggestionRequested(title));
   }
 
   void _submit(BuildContext context) {
@@ -90,15 +88,18 @@ class _CreateRequestViewState extends State<_CreateRequestView> {
       body: BlocConsumer<CreateRequestBloc, CreateRequestState>(
         listener: (context, state) {
           if (state.suggestionStatus == SuggestionStatus.ready &&
-              state.suggestedCategory != null) {
+              state.suggestedDescription != null) {
             setState(() {
-              _category = state.suggestedCategory;
-              _categoryError = null;
+              _description.text = state.suggestedDescription!;
+              _descError = null;
               _aiSuggested = true;
             });
           }
           if (state.suggestionStatus == SuggestionStatus.failure) {
-            AppSnackbar.error(context, 'Não foi possível gerar a sugestão.');
+            AppSnackbar.error(
+              context,
+              state.errorMessage ?? 'Não foi possível gerar a descrição.',
+            );
           }
           if (state.status == CreateStatus.success) {
             AppSnackbar.success(context, 'Solicitação criada com sucesso.');
@@ -125,14 +126,26 @@ class _CreateRequestViewState extends State<_CreateRequestView> {
                 errorText: _titleError,
               ),
               const SizedBox(height: AppSpacing.lg),
+              Row(
+                children: [
+                  Text('Descrição', style: AppTypography.label),
+                  if (_aiSuggested) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    const _AiHint(),
+                  ],
+                ],
+              ),
+              const SizedBox(height: AppSpacing.sm),
               AppTextField(
-                label: 'Descrição',
                 hint: 'Descreva o que você precisa',
                 controller: _description,
                 maxLines: 4,
                 helperText:
-                    'Mín. ${AppConstants.minDescriptionLength} caracteres',
+                    'Mín. ${AppConstants.minDescriptionLength} caracteres · ou gere com IA a partir do título',
                 errorText: _descError,
+                onChanged: (_) {
+                  if (_aiSuggested) setState(() => _aiSuggested = false);
+                },
               ),
               const SizedBox(height: AppSpacing.md),
               Align(
@@ -143,22 +156,13 @@ class _CreateRequestViewState extends State<_CreateRequestView> {
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),
-              Row(
-                children: [
-                  Text('Categoria', style: AppTypography.label),
-                  if (_aiSuggested) ...[
-                    const SizedBox(width: AppSpacing.sm),
-                    _AiHint(),
-                  ],
-                ],
-              ),
+              Text('Categoria', style: AppTypography.label),
               const SizedBox(height: AppSpacing.md),
               _CategoryPicker(
                 selected: _category,
                 onChanged: (c) => setState(() {
                   _category = c;
                   _categoryError = null;
-                  _aiSuggested = false;
                 }),
               ),
               if (_categoryError != null) ...[
@@ -190,6 +194,8 @@ class _CreateRequestViewState extends State<_CreateRequestView> {
 }
 
 class _AiHint extends StatelessWidget {
+  const _AiHint();
+
   @override
   Widget build(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;

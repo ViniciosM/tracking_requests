@@ -9,10 +9,10 @@ sealed class CreateRequestEvent extends Equatable {
 }
 
 class CreateSuggestionRequested extends CreateRequestEvent {
-  final String description;
-  const CreateSuggestionRequested(this.description);
+  final String title;
+  const CreateSuggestionRequested(this.title);
   @override
-  List<Object?> get props => [description];
+  List<Object?> get props => [title];
 }
 
 class CreateSubmitted extends CreateRequestEvent {

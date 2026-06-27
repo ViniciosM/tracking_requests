@@ -10,7 +10,7 @@ import 'package:tracking_requests/features/auth/presentation/bloc/auth_bloc.dart
 import 'package:tracking_requests/features/requests/domain/usecases/create_request_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/get_request_detail_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/refresh_requests_usecase.dart';
-import 'package:tracking_requests/features/requests/domain/usecases/suggest_category_usecase.dart';
+import 'package:tracking_requests/features/requests/domain/usecases/suggest_description_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/update_request_status_usecase.dart';
 import 'package:tracking_requests/features/requests/domain/usecases/watch_requests_usecase.dart';
 import 'package:tracking_requests/features/requests/presentation/bloc/create/create_request_bloc.dart';
@@ -147,7 +147,7 @@ void _registerRequests() {
     ..registerLazySingleton(() => GetRequestDetailUseCase(getIt()))
     ..registerLazySingleton(() => CreateRequestUseCase(getIt()))
     ..registerLazySingleton(() => UpdateRequestStatusUseCase(getIt()))
-    ..registerLazySingleton(() => SuggestCategoryUseCase(getIt()))
+    ..registerLazySingleton(() => SuggestDescriptionUseCase(getIt()))
     // sync engine
     ..registerLazySingleton<SyncProcessor>(
       () => RequestSyncProcessor(requestDao: getIt(), remote: getIt()),
@@ -175,6 +175,9 @@ void _registerRequests() {
       ),
     )
     ..registerFactory(
-      () => CreateRequestBloc(createRequest: getIt(), suggestCategory: getIt()),
+      () => CreateRequestBloc(
+        createRequest: getIt(),
+        suggestDescription: getIt(),
+      ),
     );
 }
