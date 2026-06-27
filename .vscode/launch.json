@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Brand A (debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_brand_a.dart"
+    },
+    {
+      "name": "Brand B (debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_brand_b.dart"
+    },
+    {
+      "name": "Brand A (profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_brand_a.dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Brand A (release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_brand_a.dart",
+      "flutterMode": "release"
+    }
+  ]
+}
